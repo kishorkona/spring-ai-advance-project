@@ -1,0 +1,25 @@
+# Ignore generated subfolders
+**/target/**
+**/bin/**
+**/boot/**
+**/classes/**
+**/out/**
+**/build/**
+**/dist/**
+
+# Ignore generated files
+**/.DS_Store
+*.class
+*.jar
+*.war
+*.ear
+*.log
+*.tmp
+*.bak
+*.swp
+*.lock
+**/*.class
+
+#ignore IDE specific files
+.idea/
+**/.idea
