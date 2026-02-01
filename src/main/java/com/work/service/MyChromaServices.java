@@ -80,11 +80,47 @@ public class MyChromaServices {
 
     public String searchDocuments(String searchText) throws ResourceAccessException {
         try {
-            List<Document> results = vectorStore.similaritySearch(
-                    SearchRequest.query(searchText)
-                            .withTopK(1) // Get the single best match
-                    );
-            String data = results.get(0).getContent();
+            // 1. Configure the SearchRequest
+            // topK(5) retrieves the 5 most similar chunks
+            // similarityThreshold(0.7) ensures results are reasonably relevant
+            SearchRequest request = SearchRequest.query(searchText)
+                    .withTopK(5)
+                    .withSimilarityThreshold(0.7);
+
+            // 2. Perform similarity search in ChromaDB
+            List<Document> results = vectorStore.similaritySearch(request);
+
+            // 3. Join the text of all matching documents to get "all details"
+            String data = results.stream()
+                    .map(Document::getContent)
+                    .collect(Collectors.joining("\n--- Next Segment ---\n"));
+
+            System.out.println("Found Document Content: " + data);
+            return  data;
+        }catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    public String advanceSearch(String searchText) throws ResourceAccessException {
+        try {
+            // 1. Configure the SearchRequest
+            // topK(5) retrieves the 5 most similar chunks
+            // similarityThreshold(0.7) ensures results are reasonably relevant
+            SearchRequest request = SearchRequest.query(searchText)
+                    .withTopK(5)
+                    //.withSimilarityThreshold(0.7);
+                    .withSimilarityThresholdAll();
+
+            // 2. Perform similarity search in ChromaDB
+            List<Document> results = vectorStore.similaritySearch(request);
+
+            // 3. Join the text of all matching documents to get "all details"
+            String data = results.stream()
+                    .map(Document::getContent)
+                    .collect(Collectors.joining("\n--- Next Segment ---\n"));
+
             System.out.println("Found Document Content: " + data);
             return  data;
         }catch (Exception e) {

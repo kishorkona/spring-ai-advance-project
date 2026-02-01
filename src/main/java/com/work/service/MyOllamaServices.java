@@ -13,11 +13,8 @@ import java.util.concurrent.CompletableFuture;
 @Service
 public class MyOllamaServices {
 
-    private final ChatClient chatClient;
 
-    public MyOllamaServices(ChatClient.Builder builder) {
-        this.chatClient = builder.build();
-    }
+    private ChatClient chatClient;
 
     @Async
     public CompletableFuture<String> getWelcomeMessage() {

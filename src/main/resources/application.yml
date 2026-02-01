@@ -2,13 +2,17 @@ debug: true
 server:
   port: 2020
   servlet:
-    context-path: /spring-ai-project
+    context-path: /spring-ai-advance-project
 
 logging:
   level:
     root: DEBUG
 
 spring:
+  servlet:
+    multipart:
+      max-file-size: 50MB
+      max-request-size: 50MB
   batch:
     job:
       enabled: false
@@ -18,15 +22,22 @@ spring:
   main:
     allow-bean-definition-overriding: true
   ai:
+    models:
+      embedding:
+        enabled: true
+        default-provider: ollama
     vectorstore:
       chroma:
         client:
           host: http://localhost
           port: 3030
-        collection-name: my_collection
+        collection-name: word_docs_collection
         initialize-schema: true
     ollama:
       base-url: http://localhost:11434
+      embedding:
+        options:
+          model: nomic-embed-text
       chat:
         options:
           model: phi3:latest
